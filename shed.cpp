@@ -88,6 +88,7 @@ bool sched_update(Scheduler *sched)
     if(current_time >= task->target_execution_time){
         Serial.println(task->id);
         task->proc();
+        sched->tail = task;
         sched->head = task->nextTask;
         assert(sched->head != NULL, "in pushing of task nextTask was allowed to be null")
         sched->head->target_execution_time = current_time + sched->head->_interval;
