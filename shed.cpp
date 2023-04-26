@@ -63,7 +63,6 @@ bool sched_push_task(Scheduler *sched, Procedure proc, const char* id, ulong int
     assert(task != NULL, "arena full! or somthing has failed");
     task->proc = proc;
     task->id = id;
-    // task->proc();
     task->target_execution_time = millis() + interval;
     task->_interval = interval;
 
@@ -86,13 +85,11 @@ bool sched_update(Scheduler *sched)
     assert(task != NULL, "schedule is empty");
     ulong current_time = millis();
     if(current_time >= task->target_execution_time){
-        Serial.println(task->id);
         task->proc();
         sched->tail = task;
         sched->head = task->nextTask;
         assert(sched->head != NULL, "in pushing of task nextTask was allowed to be null")
         sched->head->target_execution_time = current_time + sched->head->_interval;
-        //sched->arena.free_block(task);
         return true;
     }
     return false;
@@ -106,38 +103,3 @@ bool sched_empty(const Scheduler &sched)
     return ret;
 }
 
-// Delay delay_init(ulong target)
-// {
-//     return {
-//         .root = 0,
-//         .elapsed = millis(),
-//         .target = target,
-//     };
-// }
-// 
-// void delay_reset(Delay *d)
-// {
-//     d->root = millis();
-//     d->elapsed = 0;
-// }
-// 
-// bool delay_update(Delay *d)
-// {
-//     ulong current_time = millis();
-//     d->elapsed = current_time - d->root;
-//     if (d->elapsed >= d->target) {
-//         delay_reset(d);
-//         return true;
-//     }
-//     return false;
-// }
-// 
-// void delay_print(const Delay &d)
-// {
-//     Serial.print("target: ");
-//     Serial.println(d.target);
-//     Serial.print("elapsed: ");
-//     Serial.println(d.elapsed);
-//     Serial.print("root: ");
-//     Serial.println(d.root);
-// }

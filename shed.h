@@ -1,3 +1,6 @@
+#ifndef _SCHEDULE
+#define _SCHEDULE
+
 #include <Arduino.h>
 #include <string.h>
 
@@ -34,14 +37,6 @@ struct Scheduler {
 };
 
 
-// static TaskArena taskarena_init(TaskArena *arena);
-
-// Delay delay_init(ulong target);
-// bool delay_update(Delay *d);
-// void delay_print(const Delay &d);
-// void delay_reset(Delay *d);
-#ifndef _SCHEDULE
-#define _SCHEDULE
 void __assert_msg(const char* expr, const char *msg, const char *file, int line);
 void __note(const char *msg, const char *file, int line);
 #define assert(expr, msg) if(!(expr)){__assert_msg(# expr, msg, __FILE__, __LINE__);}
